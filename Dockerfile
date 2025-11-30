@@ -1,30 +1,37 @@
-# 1. PHP イメージ
-FROM php:8.2-cli
+FROM php:8.3-fpm
 
-# 2. 必要なパッケージをインストール（git, unzip, pdo_mysql など）
+# 作業ディレクトリ
+WORKDIR /var/www/html
+
+# 必要パッケージ＋Nodeをインストール（curl経由でNode 20）
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libzip-dev \
-    libonig-dev \
-    libxml2-dev \
-    && docker-php-ext-install pdo_mysql zip
+    git unzip libpq-dev libzip-dev zip curl \
+    && docker-php-ext-install pdo pdo_mysql \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
 
-# 3. Composer をインストール
+# composer コピー
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# 4. アプリケーションコードをコンテナにコピー
-WORKDIR /var/www/html
+# アプリのソースをコピー
 COPY . .
 
-# 5. Composer install（本番用）
+# PHP依存パッケージインストール
 RUN composer install --no-dev --optimize-autoloader
 
-# 6. Laravel 用の簡易設定
+# Vite（フロント）のビルド
+RUN npm ci && npm run build
+
+# Laravelのキー＆キャッシュまわり
+RUN php artisan key:generate --force
 RUN php artisan config:clear
+RUN php artisan route:cache || true
+RUN php artisan config:cache || true
+RUN php artisan view:cache || true
 
-# 7. ポート指定（Renderは $PORT を使う）
-ENV PORT=8000
+# ポート公開
+EXPOSE 10000
 
-# 8. コンテナ起動時に実行するコマンド
-CMD php artisan migrate --force && php artisan serve --host 0.0.0.0 --port $PORT
+# 起動コマンド
+CMD php artisan serve --host=0.0.0.0 --port=10000
