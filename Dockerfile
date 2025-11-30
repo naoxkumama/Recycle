@@ -24,7 +24,10 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm install --legacy-peer-deps && npm run build
 
 # Laravelのキー＆キャッシュまわり
-RUN php artisan key:generate --force
+# Renderでは .env（APP_KEY含む）は Secret Files から渡すので、
+# ビルド時に key:generate は実行しない
+# RUN php artisan key:generate --force
+
 RUN php artisan config:clear
 RUN php artisan route:cache || true
 RUN php artisan config:cache || true
