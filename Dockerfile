@@ -21,7 +21,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Vite（フロント）のビルド
-RUN npm ci && npm run build
+RUN npm install --legacy-peer-deps && npm run build
 
 # Laravelのキー＆キャッシュまわり
 RUN php artisan key:generate --force
