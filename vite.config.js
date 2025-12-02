@@ -10,7 +10,6 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
-            base: process.env.VITE_APP_URL + '/build/', // ← 追加
         }),
         vue(),
     ],
