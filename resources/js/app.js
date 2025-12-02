@@ -1,6 +1,7 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { router } from '@inertiajs/vue3'
 
 // 環境ごとのベースURLを設定
 // 本番やステージングでは .env で管理するのが理想
@@ -27,8 +28,8 @@ createInertiaApp({
     app.config.globalProperties.$goPage = (path) => {
       // 絶対URLでInertiaを呼ぶ
       const url = path.startsWith('http') ? path : `${BASE_URL}${path}`
-      props.router.visit(url)
-    }
+      router.visit(url)
+}
 
     app.mount(el)
   },
