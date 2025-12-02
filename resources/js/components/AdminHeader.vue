@@ -20,7 +20,7 @@ const goPage = (path: string) => {
   if (path === '/admin/Logout') {
     router.post(path)
   } else{
-    router.visit(path)
+    window.location.href = `https://recycle-api-staging.onrender.com${path}`;
   }
 }
 </script>
