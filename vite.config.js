@@ -6,11 +6,11 @@ import vue from '@vitejs/plugin-vue';
 
 
 export default defineConfig({
-    base: '/build/',
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
+            base: process.env.VITE_APP_URL + '/build/', // ← 追加
         }),
         vue(),
     ],
