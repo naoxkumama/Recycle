@@ -6,7 +6,7 @@ import vue from '@vitejs/plugin-vue';
 
 
 export default defineConfig({
-    base: '/build/',
+    base: 'https://recycle-api-staging.onrender.com/build/', 
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
