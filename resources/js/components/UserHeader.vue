@@ -15,7 +15,7 @@
 import { router } from '@inertiajs/vue3'
 
 const goPage = (path: string) => {
-  router.visit(`https://recycle-api-staging.onrender.com${path}`)
+  router.visit(path)
 }
 </script>
 
