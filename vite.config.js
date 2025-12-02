@@ -6,6 +6,7 @@ import vue from '@vitejs/plugin-vue';
 
 
 export default defineConfig({
+    base: process.env.ASSET_URL ? process.env.ASSET_URL + '/build/' : '/build/', // ← ここ重要
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
