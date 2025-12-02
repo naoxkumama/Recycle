@@ -1,10 +1,13 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import axios from 'axios'
 
+// AxiosのベースURLをHTTPSに統一
+axios.defaults.baseURL = 'https://recycle-api-staging.onrender.com'
 
 const pages = import.meta.glob('./pages/**/*.vue', { eager: true })
-
+.
 createInertiaApp({
   resolve: name => {
     const key = `./pages/${name}.vue`
