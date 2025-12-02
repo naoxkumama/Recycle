@@ -61,9 +61,10 @@ const togglePassword = () => {
 const submitButton = () => {
   form.post('/admin/Login', {
     onSuccess: () => {
-      console.log('送信完了')
-      submitted.value = true
-      form.reset()
+    console.log('成功')
+    },
+    onError: () => {
+      console.log('エラー', form.errors)
     }
   })
 }
