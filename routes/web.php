@@ -11,12 +11,12 @@ use App\Http\Controllers\User\UserContactController;
 
 Route::prefix('admin')->group(function () {
 
-    Route::middleware('guest:admin')->group(function () {
+    // Route::middleware('guest:admin')->group(function () {
         Route::get('AdminLogin', [AdminAuthController::class, 'AdminLogin'])->name('admin.login');
         Route::post('Login', [AdminAuthController::class, 'Login']);
-    });
+    // });
 
-    Route::middleware('auth:admin')->group(function () {
+    // Route::middleware('auth:admin')->group(function () {
         Route::get('AdminHome', [AdminHomeController::class, 'AdminHome'])->name('admin.home');
         Route::get('AdminNewsList', [AdminHomeController::class, 'AdminNewsList']);
         Route::get('AdminNewsDetail', [AdminHomeController::class, 'AdminNewsDetail']);
@@ -27,7 +27,7 @@ Route::prefix('admin')->group(function () {
         Route::get('AdminReservationHistory', [AdminReservationHistoryController::class, 'History']);
         Route::get('AdminContactHistory', [AdminContactHistoryController::class, 'history']);
         Route::post('Logout', [AdminAuthController::class, 'Logout'])->name('admin.logout');
-    });
+    // });
 });
 
 Route::prefix('admin')->group(function () {
