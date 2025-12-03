@@ -19,7 +19,7 @@ Route::prefix('admin')->group(function () {
     // Route::middleware('auth:admin')->group(function () {
         Route::get('AdminHome', [AdminHomeController::class, 'AdminHome'])->name('admin.home');
         Route::get('AdminNewsList', [AdminHomeController::class, 'AdminNewsList']);
-        Route::get('AdminNewsDetail', [AdminHomeController::class, 'AdminNewsDetail']);
+        Route::get('AdminNewsDetail/{index}', [AdminHomeController::class, 'AdminNewsDetail']);
         Route::get('AdminNewsEdit', [AdminHomeController::class, 'AdminNewsEdit']);
         Route::get('AdminBlogList', [AdminHomeController::class, 'AdminBlogList']);
         Route::get('AdminBlogDetail/{index}', [AdminHomeController::class, 'AdminBlogDetail']);
