@@ -7,7 +7,7 @@ WORKDIR /var/www/html
 # 必要パッケージ＋Nodeをインストール（Node 20）
 RUN apt-get update && apt-get install -y \
     git unzip libpq-dev libzip-dev zip curl \
-    && docker-php-ext-install pdo pdo_mysql \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql pgsql \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest
