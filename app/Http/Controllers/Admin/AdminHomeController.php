@@ -12,7 +12,7 @@ class AdminHomeController extends Controller
         return Inertia::render('Admin/AdminHome');
     }
 
-    public function AdminNewsList()
+    public function AdminNews()
     {
         return Inertia::render('Admin/AdminNewsList');
     }

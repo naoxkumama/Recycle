@@ -9,11 +9,33 @@
       <button class="btn btn-primary" @click="goPage('/admin/AdminHome')">管理画面TOPへ</button>
       <button class="btn btn-secondary" @click="goPage('/user/home')">ユーザーTOPへ</button>
       <button class="btn btn-danger" @click="goPage('/admin/Logout')">ログアウト</button>
+
+      <!-- ハンバーガー -->
+      <button class="menu-toggle" @click="toggleMenu">
+        ☰
+      </button>
+
+      <!-- オーバーレイ -->
+      <div v-if="open" class="overlay" @click="closeMenu">
+        <nav class="drawer" @click.stop>
+          <!-- 閉じるボタン -->
+          <button class="close-menu-btn" @click="closeMenu">✕ 閉じる</button>
+          <button
+            v-for="(btn, i) in buttons"
+            :key="i"
+            class="menu-item"
+            @click="navigate(btn.path)"
+          >
+            {{ btn.label }}
+          </button>
+        </nav>
+      </div>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue"
 import { router } from '@inertiajs/vue3'
 
 const goPage = (path: string) => {
@@ -23,6 +45,25 @@ const goPage = (path: string) => {
     window.location.href = `https://recycle-api-staging.onrender.com${path}`;
   }
 }
+
+const open = ref(false)
+
+const toggleMenu = () => {
+  open.value = !open.value
+}
+const closeMenu = () => open.value = false
+
+const navigate = (path: string) => {
+  open.value = false // 閉じる
+  router.visit(path)
+}
+
+const buttons = [
+  { label: "お知らせ管理", path: "/admin/AdminNewsList", class: "news-btn"},
+  { label: "ブログ管理", path: "/admin/AdminBlogList", class: "blog-btn"},
+  { label: "仮予約履歴", path: "/admin/AdminReservationHistory", class: "reservation-btn" },
+  { label: "お問い合わせ履歴", path: "/admin/AdminContactHistory", class: "contact-btn" }
+]
 </script>
 
 <style scoped>
@@ -36,6 +77,7 @@ const goPage = (path: string) => {
   position: sticky;
   top: 0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  z-index: 11; /* メニューより上 */
 }
 
 .left{
@@ -107,5 +149,61 @@ const goPage = (path: string) => {
 
 .btn-danger:hover {
   background-color: #c0392b;
+}
+
+.menu-toggle {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* オーバーレイ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 10; /* 背景画像より上 */
+}
+
+/* ドロワー */
+.drawer {
+  width: 250px;
+  background: white;
+  padding: 20px;
+  border-left: 2px solid #ffd5e5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideIn .25s ease;
+}
+
+.close-menu-btn {
+align-self: flex-end;
+background: none;
+border: none;
+font-size: 1.2rem;
+cursor: pointer;
+margin-bottom: 10px;
+}
+
+.menu-item {
+  padding: .7rem 1rem;
+  background: #fff7fa;
+  border: 1px solid #ffd5e5;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: #ffd5e5;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
 }
 </style>

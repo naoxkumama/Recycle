@@ -11,6 +11,7 @@
                 <button @click="goBack">一覧に戻る</button>
             </div>
         </main>
+        <CommonFooter />
     </div>
 </template>
 
@@ -18,6 +19,7 @@
 import { ref, onMounted } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import AdminHeader from '../../components/AdminHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 
 const page = usePage()
 const index = Number((page.props as any).index ?? 0)

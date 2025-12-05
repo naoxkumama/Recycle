@@ -7,12 +7,12 @@
           <button class="write-btn" @click="goWritePage">新規作成 ✏️</button>
         </div>
           <div v-if="posts.length" class="news-list">
-            <div v-for="(post, index) in posts" :key="index" class="news-item">
+            <div v-for="post in posts" :key="post.id" class="news-item">
               <div class="news-header">
-                <h2 @click="viewPost(index)" class="clickable">{{ post.title }}</h2>
+                <h2 @click="viewPost(post.id)" class="clickable">{{ post.title }}</h2>
                 <div class="action-buttons">
-                  <button class="edit-btn" @click="editPost(index)">編集 ✏️</button>
-                  <button class="delete-btn" @click="deletePost(index)">削除 ✖</button>
+                  <button class="edit-btn" @click="editPost(post.id)">編集 ✏️</button>
+                  <button class="delete-btn" @click="deletePost(post.id)">削除 ✖</button>
                 </div>
               </div>
               <p class="preview-text">{{ getPreview(post.content) }}</p>
@@ -22,6 +22,7 @@
       </main>
 
       <ButtonColors :buttons="buttons" @navigate="goPage" />
+      <CommonFooter />
   </div>
 </template>
 
@@ -30,35 +31,33 @@ import { ref, onMounted } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 
-const posts = ref<{ title: string; content: string }[]>([])
+const props = defineProps<{ news?: { id: number; title: string; content: string }[] }>()
+const posts = ref<{ id: number; title: string; content: string }[]>(props.news || [])
 
 const getPreview = (text: string) => {
   if(!text) return ''
   return text.length > 120 ? text.slice(0, 120) + '...' :text
 }
 
-onMounted(() => {
-  const saved = localStorage.getItem('newsPosts')
-  if (saved) posts.value = JSON.parse(saved)
-})
-
 const goWritePage = () => {
   router.visit('/admin/AdminNewsEdit')
 }
 
-const viewPost = (index: number) => {
-  router.visit(`/admin/AdminNewsDetail/${index}`)
-}
+const editPost = (id: number) => router.visit(`/admin/AdminNewsEdit/${id}/edit`);
+const viewPost = (id: number) => router.visit(`/admin/AdminNewsList/${id}`);
 
-const editPost = (index: number) => {
-  router.visit(`/admin/AdminNewsEdit?index=${index}`)
-}
+const deletePost = (id: number) => {
+    if (!confirm('本当に削除しますか？')) return;
 
-const deletePost = (index: number) => {
-  if (!confirm('本当に削除しますか？')) return
-  posts.value.splice(index, 1)
-  localStorage.setItem('newsPosts', JSON.stringify(posts.value))
+    router.delete(`/admin/AdminNewsList/${id}`, {
+        onSuccess: () => {
+            alert('削除しました');
+            // ページリロードまたは posts を更新
+            posts.value = posts.value.filter(p => p.id !== id);
+        }
+    });
 }
 
 const buttons = [

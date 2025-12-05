@@ -11,6 +11,7 @@
       <ButtonColors :buttons="buttons" @navigate="goPage" />
     </main>
     </CommonLayout>
+    <CommonFooter />
   </div>
 </template>
 
@@ -18,6 +19,7 @@
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
 
 const buttons = [

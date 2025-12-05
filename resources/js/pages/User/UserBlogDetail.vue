@@ -10,6 +10,7 @@
             </div>
         </main>
         <p v-else>記事が存在しません</p>
+    <CommonFooter />
     </div>
 </template>
 
@@ -17,6 +18,7 @@
 import { ref, onMounted } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import UserHeader from '../../components/UserHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 
 const page = usePage()
 const index = Number((page.props as any).index ?? 0)

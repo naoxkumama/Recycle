@@ -15,8 +15,13 @@
         </div>
 
         <div class="form-group">
-          <label for="name">電話番号</label>
-          <input v-model="form.phone" type="text" id="phone" required />
+          <label for="phone">電話番号</label>
+          <input v-model="form.phone" type="phone" id="phone" required />
+        </div>
+
+        <div class="form-group">
+          <label for="name">メールアドレス</label>
+          <input v-model="form.email" type="email" id="email" required />
         </div>
 
         <div class="form-group">
@@ -34,10 +39,16 @@
           <input type="datetime-local" v-model="form.third" />
         </div>
 
+        <div class="form-group">
+          <label for="message">備考</label>
+          <textarea v-model="form.message" id="message" rows="7" required></textarea>
+        </div>
+
         <button type="button" @click="submitButton">送信</button>
     </main>
       <ButtonColors :buttons="buttons" @navigate="goPage" />
   </CommonLayout>
+  <CommonFooter />
   </div>
 </template>
 
@@ -45,6 +56,7 @@
 import { useForm, router } from '@inertiajs/vue3';
 import ButtonColors from '../../components/buttonColors.vue'
 import UserHeader from '../../components/UserHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
 
 const form = useForm({
@@ -100,6 +112,16 @@ input {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+input,
+textarea {
+    width: 400px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
 }
 
 button {

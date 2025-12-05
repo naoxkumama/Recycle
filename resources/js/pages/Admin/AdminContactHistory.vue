@@ -12,6 +12,7 @@
           label: '基本情報',
           fields: [
             { key: 'name', label: '名前', type: 'text' },
+            { key: 'phone', label: '電話番号', type: 'text' },
             { key: 'email', label: 'メールアドレス', type: 'text' },
             { key: 'message', label: '本文', type: 'text' }
           ],
@@ -33,6 +34,7 @@
 
     <Pagination :pagination="page.props.contacts" />
     <ButtonColors :buttons="buttons" @navigate="goPage" />
+    <CommonFooter />
   </div>
 </template>
 
@@ -41,6 +43,7 @@ import { usePage, router } from '@inertiajs/vue3';
 import { computed } from 'vue'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 import Pagination from '../../components/Pagination.vue'
 import Table from '../../components/Table.vue'
 import SearchBox from '../../components/SearchBox.vue'

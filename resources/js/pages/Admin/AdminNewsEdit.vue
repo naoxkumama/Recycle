@@ -22,53 +22,51 @@
         </main>
 
         <ButtonColors :buttons="buttons" @navigate="goPage" />
+        <CommonFooter />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 
 const params = new URLSearchParams(window.location.search)
-const indexParam = params.get('index')
 
 const posts = ref<{ title: string; content: string }[]>([])
-const form = ref({ title: '', content: ''})
+const form = ref<{ id?: number; title: string; content: string }>({
+    title: '',
+    content: ''
+})
 const isEdit = ref(false)
 
 // 初期処理
-onMounted(() => {
-    const saved = localStorage.getItem('newsPosts')
-    posts.value = saved ? JSON.parse(saved) : []
-
-    // 編集モードの場合
-    if (indexParam !== null) {
-        const index = parseInt(indexParam)
-        const post = posts.value[index]
-        if (post) {
-            form.value.title = post.title
-            form.value.content = post.content
-            isEdit.value = true
-        }
-    }
-})
+const props = defineProps<{ news?: { id: number; title: string; content: string } }>()
+if (props.news) {
+    form.value = { ...props.news }
+    isEdit.value = true
+}
 
 // 保存処理
 const savePost = () => {
-    if (isEdit.value && indexParam !== null) {
-        // 上書き保存
-        const index = parseInt(indexParam)
-        posts.value[index] = { ...form.value }
+    if (isEdit.value && form.value.id) {
+        // 編集時は PUT
+        router.put(`/Admin/AdminNewsEdit/${form.value.id}`, form.value, {
+            onSuccess: () => {
+                alert('更新しました')
+                router.visit('/admin/AdminNewsList')
+            }
+        })
     } else {
-        // 新規追加
-        posts.value.push({ ...form.value})
+        // 新規作成は POST
+        router.post('/Admin/AdminNewsEdit', form.value, {
+            onSuccess: () => {
+                alert('保存しました')
+                router.visit('/admin/AdminNewsList')
+            }
+        })
     }
-
-    localStorage.setItem('newsPosts', JSON.stringify(posts.value))
-    alert(isEdit.value ? 'お知らせを更新しました！' : '新規お知らせを追加しました！')
-    router.visit('/admin/AdminNewsList')
 }
 
 const buttons = [

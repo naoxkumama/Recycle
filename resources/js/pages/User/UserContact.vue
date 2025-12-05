@@ -16,6 +16,11 @@
             </div>
 
             <div class="form-group">
+                <label for="phone">電話番号</label>
+                <input v-model="form.phone" type="phone" id="phone" required />
+            </div>
+
+            <div class="form-group">
                 <label for="email">メールアドレス</label>
                 <input v-model="form.email" type="email" id="email" required />
             </div>
@@ -32,6 +37,7 @@
     </main>
     <ButtonColors :buttons="buttons" @navigate="goPage" />
     </CommonLayout>
+    <CommonFooter />
     </div>
 </template>
 
@@ -39,6 +45,7 @@
 import { useForm, router } from '@inertiajs/vue3';
 import ButtonColors from '../../components/buttonColors.vue'
 import UserHeader from '../../components/UserHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
 
 const form = useForm({

@@ -13,12 +13,14 @@
                 <button @click="goPage('/user/home')">ホームへ戻る</button>
             </main>
         </CommonLayout>
+        <CommonFooter />
     </div>
 </template>
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import UserHeader from '../../components/UserHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from '../../components/CommonLayout.vue'
 
 const goPage = (path: string) => {

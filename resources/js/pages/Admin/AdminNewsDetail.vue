@@ -11,37 +11,34 @@
                 <button @click="goBack">一覧に戻る</button>
             </div>
         </main>
+    <CommonFooter />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import AdminHeader from '../../components/AdminHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 
-const page = usePage()
-const index = Number((page.props as any).index ?? 0)
-const post = ref<{ title: string; content: string } | null>(null)
-const posts =ref<{ title: string; content: string }[]>([])
+// 👇 Laravel から props を受け取る
+const props = defineProps<{
+  news: { id: number; title: string; content: string }
+}>()
+const post = props.news
 
-onMounted(() => {
-    const saved = localStorage.getItem('newsPosts')
-    if (saved) {
-        const posts = JSON.parse(saved)
-        post.value = posts[index] || null
-    }
-})
-
-const editPost = (index: number) => {
-    router.visit(`/admin/AdminNewsEdit?index=${index}`)
+const editPost = (id: number) => {
+  router.visit(`/Admin/AdminNewsEdit/${id}/edit`)
 }
 
-const deletePost = (index: number) => {
-    if (!confirm('本当に削除しますか？')) return
-    posts.value.splice(index, 1)
-    localStorage.setItem('newsPosts', JSON.stringify(posts.value))
-    alert('削除しました。')
-    router.visit('/admin/AdminNewsList')
+const deletePost = (id: number) => {
+  if (!confirm('本当に削除しますか？')) return
+
+  router.delete(`/Admin/AdminNewsList/${id}`, {
+    onSuccess: () => {
+      alert('削除しました。')
+      router.visit('/Admin/AdminNewsList')
+    }
+  })
 }
 
 const goBack = () => router.visit('/admin/AdminNewsList')

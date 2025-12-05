@@ -37,6 +37,7 @@
 
     </main>
     <ButtonColors :buttons="buttons" @navigate="goPage" />
+    <CommonFooter />
   </div>
 </template>
 
@@ -45,6 +46,7 @@ import { useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 
 const form = useForm({
   email: '',

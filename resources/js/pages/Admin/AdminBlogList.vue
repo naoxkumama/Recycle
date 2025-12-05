@@ -22,6 +22,7 @@
       </main>
 
       <ButtonColors :buttons="buttons" @navigate="goPage" />
+      <CommonFooter />
   </div>
 </template>
 
@@ -30,6 +31,7 @@ import { ref, onMounted } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import CommonFooter from'../../components/CommonFooter.vue'
 
 const posts = ref<{ title: string; content: string }[]>([])
 

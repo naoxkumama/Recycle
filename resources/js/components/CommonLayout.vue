@@ -43,4 +43,15 @@ defineProps<{leftImage: string; rightImage: string;}>()
 .side-image.right {
     right: 0;
 }
+
+@media (max-width: 700px) {
+    .side-image {
+        display: none;
+    }
+
+    .main-content {
+        padding-left: 20px;  /* スマホ用の余白 */
+        padding-right: 20px;
+    }
+}
 </style>

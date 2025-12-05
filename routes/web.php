@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminHomeController;
+use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminReservationHistoryController;
 use App\Http\Controllers\Admin\AdminContactHistoryController;
 use App\Http\Controllers\User\HomeController;
@@ -18,9 +19,15 @@ Route::prefix('admin')->group(function () {
 
     // Route::middleware('auth:admin')->group(function () {
         Route::get('AdminHome', [AdminHomeController::class, 'AdminHome'])->name('admin.home');
-        Route::get('AdminNewsList', [AdminHomeController::class, 'AdminNewsList']);
-        Route::get('AdminNewsDetail/{index}', [AdminHomeController::class, 'AdminNewsDetail']);
-        Route::get('AdminNewsEdit', [AdminHomeController::class, 'AdminNewsEdit']);
+
+        Route::get('/AdminNewsList', [AdminNewsController::class, 'index'])->name('admin.news.index');
+        Route::get('/AdminNewsList/{news}', [AdminNewsController::class, 'show'])->name('admin.news.show'); // 詳細
+        Route::delete('/AdminNewsList/{news}', [AdminNewsController::class, 'destroy'])->name('admin.news.destroy');
+        Route::get('/AdminNewsEdit', [AdminNewsController::class, 'create'])->name('admin.news.create'); // 新規
+        Route::post('/AdminNewsEdit', [AdminNewsController::class, 'store'])->name('admin.news.store');   // 保存
+        Route::get('/AdminNewsEdit/{news}/edit', [AdminNewsController::class, 'edit'])->name('admin.news.edit'); // 編集
+        Route::put('/AdminNewsEdit/{news}', [AdminNewsController::class, 'update'])->name('admin.news.update');   // 更新
+
         Route::get('AdminBlogList', [AdminHomeController::class, 'AdminBlogList']);
         Route::get('AdminBlogDetail/{index}', [AdminHomeController::class, 'AdminBlogDetail']);
         Route::get('AdminBlogEdit', [AdminHomeController::class, 'AdminBlogEdit']);
@@ -28,12 +35,6 @@ Route::prefix('admin')->group(function () {
         Route::get('AdminContactHistory', [AdminContactHistoryController::class, 'history']);
         Route::post('Logout', [AdminAuthController::class, 'Logout'])->name('admin.logout');
     // });
-});
-
-Route::prefix('admin')->group(function () {
-    Route::get('/AdminReservation/History', [AdminReservationHistoryController::class, 'History']);
-
-    Route::get('/AdminContact/History', [AdminContactHistoryController::class, 'History']);
 });
 
 Route::prefix('user')->group(function () {

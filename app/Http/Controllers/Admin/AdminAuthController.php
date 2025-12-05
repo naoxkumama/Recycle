@@ -13,7 +13,7 @@ class AdminAuthController extends Controller
         return inertia('Admin/AdminLogin');
     }
 
-    public function login(Request $request)
+    public function Login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
