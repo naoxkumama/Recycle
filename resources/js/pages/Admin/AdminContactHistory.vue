@@ -34,6 +34,7 @@
 
     <Pagination :pagination="page.props.contacts" />
     <ButtonColors :buttons="buttons" @navigate="goPage" />
+    <AdminFooter />
     <CommonFooter />
   </div>
 </template>
@@ -43,6 +44,7 @@ import { usePage, router } from '@inertiajs/vue3';
 import { computed } from 'vue'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 import Pagination from '../../components/Pagination.vue'
 import Table from '../../components/Table.vue'

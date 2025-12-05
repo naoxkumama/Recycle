@@ -120,6 +120,7 @@
     </main>
       <ButtonColors :buttons="buttons" @navigate="goPage" />
   </CommonLayout>
+  <UserFooter />
   <CommonFooter />
   </div>
 </template>
@@ -130,6 +131,7 @@ import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import ButtonColors from '../../components/buttonColors.vue'
 import UserHeader from '../../components/UserHeader.vue'
+import UserFooter from '../../components/UserFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
 

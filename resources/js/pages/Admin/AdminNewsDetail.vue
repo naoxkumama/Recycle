@@ -11,6 +11,7 @@
                 <button @click="goBack">一覧に戻る</button>
             </div>
         </main>
+    <AdminFooter />
     <CommonFooter />
     </div>
 </template>
@@ -18,27 +19,28 @@
 <script setup lang="ts">
 import { router, usePage } from '@inertiajs/vue3'
 import AdminHeader from '../../components/AdminHeader.vue'
+import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
 // 👇 Laravel から props を受け取る
 const props = defineProps<{
-  news: { id: number; title: string; content: string }
+    news: { id: number; title: string; content: string }
 }>()
 const post = props.news
 
 const editPost = (id: number) => {
-  router.visit(`/Admin/AdminNewsEdit/${id}/edit`)
+    router.visit(`/Admin/AdminNewsEdit/${id}/edit`)
 }
 
 const deletePost = (id: number) => {
-  if (!confirm('本当に削除しますか？')) return
+    if (!confirm('本当に削除しますか？')) return
 
-  router.delete(`/Admin/AdminNewsList/${id}`, {
+    router.delete(`/Admin/AdminNewsList/${id}`, {
     onSuccess: () => {
-      alert('削除しました。')
-      router.visit('/Admin/AdminNewsList')
+        alert('削除しました。')
+        router.visit('/Admin/AdminNewsList')
     }
-  })
+    })
 }
 
 const goBack = () => router.visit('/admin/AdminNewsList')

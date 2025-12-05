@@ -10,6 +10,7 @@
             </div>
         </main>
         <p v-else>記事が存在しません</p>
+        <UserFooter />
     <CommonFooter />
     </div>
 </template>
@@ -18,6 +19,7 @@
 import { ref, onMounted } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import UserHeader from '../../components/UserHeader.vue'
+import UserFooter from '../../components/UserFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
 const page = usePage()

@@ -22,15 +22,17 @@
       </main>
 
       <ButtonColors :buttons="buttons" @navigate="goPage" />
+      <AdminFooter />
       <CommonFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
 const props = defineProps<{ news?: { id: number; title: string; content: string }[] }>()
@@ -42,7 +44,7 @@ const getPreview = (text: string) => {
 }
 
 const goWritePage = () => {
-  router.visit('/admin/AdminNewsEdit')
+  router.visit("/admin/AdminNewsEdit")
 }
 
 const editPost = (id: number) => router.visit(`/admin/AdminNewsEdit/${id}/edit`);

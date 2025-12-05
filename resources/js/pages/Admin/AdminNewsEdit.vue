@@ -22,6 +22,7 @@
         </main>
 
         <ButtonColors :buttons="buttons" @navigate="goPage" />
+        <AdminFooter />
         <CommonFooter />
     </div>
 </template>
@@ -30,6 +31,7 @@
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
+import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
 const params = new URLSearchParams(window.location.search)

@@ -12,6 +12,7 @@
                 <button @click="goPage('/user/home')">ホームへ戻る</button>
             </main>
         </CommonLayout>
+        <UserFooter />
         <CommonFooter />
     </div>
 </template>
@@ -20,6 +21,7 @@
 import { router } from '@inertiajs/vue3'
 import UserHeader from '../../components/UserHeader.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
+import UserFooter from '../../components/UserFooter.vue'
 import CommonLayout from '../../components/CommonLayout.vue'
 
 const goPage = (path: string) => {
