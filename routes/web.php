@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminNewsController;
+use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminReservationHistoryController;
 use App\Http\Controllers\Admin\AdminContactHistoryController;
 use App\Http\Controllers\User\HomeController;
@@ -29,9 +30,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/AdminNewsEdit/{news}/edit', [AdminNewsController::class, 'edit'])->name('admin.news.edit'); // 編集ページへ遷移
         Route::put('/AdminNewsEdit/{news}', [AdminNewsController::class, 'update'])->name('admin.news.update');   // 更新処理
 
-        Route::get('AdminBlogList', [AdminHomeController::class, 'AdminBlogList']);
-        Route::get('AdminBlogDetail/{index}', [AdminHomeController::class, 'AdminBlogDetail']);
-        Route::get('AdminBlogEdit', [AdminHomeController::class, 'AdminBlogEdit']);
+        Route::get('blogs', [AdminBlogController::class, 'index']);
+        Route::post('blogs', [AdminBlogController::class, 'store']);
+        Route::put('blogs/{id}', [AdminBlogController::class, 'update']);
+        Route::delete('blogs/{id}', [AdminBlogController::class, 'destroy']);
+
         Route::get('AdminReservationHistory', [AdminReservationHistoryController::class, 'History']);
         Route::get('AdminContactHistory', [AdminContactHistoryController::class, 'history']);
         Route::post('Logout', [AdminAuthController::class, 'Logout'])->name('admin.logout');

@@ -27,21 +27,6 @@ class AdminHomeController extends Controller
         return Inertia::render('Admin/AdminNewsEdit');
     }
 
-    public function AdminBlogList()
-    {
-        return Inertia::render('Admin/AdminBlogList');
-    }
-
-    public function AdminBlogDetail($index)
-    {
-        return Inertia::render('Admin/AdminBlogDetail', ['index' => (int)$index]);
-    }
-
-    public function AdminBlogEdit()
-    {
-        return Inertia::render('Admin/AdminBlogEdit');
-    }
-
     public function AdminContactHistory()
     {
         return Inertia::render('Admin/AdminContactHistory');
