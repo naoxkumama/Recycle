@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NewsPost;
 use Inertia\Inertia;
 
-class NewsController extends Controller
+class UserNewsController extends Controller
 {
     public function index()
     {
