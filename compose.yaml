@@ -3,7 +3,7 @@ services:
     image: postgres:16           # typo: postgresn → postgres
     restart: always
     environment:
-      POSTGRES_DB: laravel       # DB名は任意ですが .env と一致させる
+      POSTGRES_DB: laravel_db       # DB名は任意ですが .env と一致させる
       POSTGRES_USER: laravel
       POSTGRES_PASSWORD: 3249
     ports:
@@ -36,9 +36,7 @@ services:
     networks:
       - sail
     depends_on:
-      - pgsql                   # MySQL は不要なら削除
-
-# MySQL・phpMyAdmin は不要なら削除してもOK
+      - pgsql
 
 networks:
   sail:

@@ -22,16 +22,6 @@ class HomeController extends Controller
         return Inertia::render('UserFee');
     }
 
-    public function UserNewsList()
-    {
-        return Inertia::render('UserNewsList');
-    }
-
-    public function UserNewsDetail($index)
-    {
-        return Inertia::render('UserNewsDetail');
-    }
-
     public function UserBlogList()
     {
         return Inertia::render('UserBlogList');

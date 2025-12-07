@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import UserHeader from '../../components/UserHeader.vue'

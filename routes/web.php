@@ -50,8 +50,8 @@ Route::prefix('user')->group(function () {
     Route::get('UserReservationComplete', [HomeController::class, 'UserReservationComplete']);
     Route::get('UserContactComplete', [HomeController::class, 'UserContactComplete']);
 
-    Route::get('news', [UserNewsController::class, 'index']);
-    Route::get('news/{id}', [UserNewsController::class, 'show']);
+    Route::get('UserNewsList', [UserNewsController::class, 'index']);
+    Route::get('UserNewsDetail/{id}', [UserNewsController::class, 'show']);
     Route::post('/UserReservation', [UserReservationController::class, 'store']);
     Route::post('/UserContact', [UserContactController::class, 'store']);
 });
