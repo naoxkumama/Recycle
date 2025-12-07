@@ -5,7 +5,7 @@
       leftImage="/images/bear.jpg"
       rightImage="/images/truck.jpg"
     >
-      <main>
+      <main v-if="post">
         <h1>{{ news.title }}</h1>
         <p>{{ news.content }}</p>
 
@@ -13,6 +13,7 @@
           一覧に戻る
         </button>
       </main>
+      <p v-else>記事が存在しません</p>
     </CommonLayout>
     <UserFooter />
     <CommonFooter />

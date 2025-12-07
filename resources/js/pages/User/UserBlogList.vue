@@ -7,19 +7,19 @@
     >
 
       <main>
-          <h1>スタッフブログ 📚</h1>
+        <h1>お知らせ 📺</h1>
 
-          <!-- ブログがある場合 -->
+        <!-- お知らせがある場合 -->
           <div v-if="posts.length">
-              <div v-for="(post, index) in reversedPosts" :key="index" class="blog-item">
-                <h2 @click="goPost(index)" class="clickable">{{ post.title }}</h2>
+              <div v-for="post in posts" :key="post.id" class="blog-item">
+                <h2 @click="goPost(post.id)" class="clickable">{{ post.title }}</h2>
                 <p class="content">{{ getPreview(post.content) }}</p>
                 <hr />
               </div>
           </div>
 
-          <!-- ブログがまだない場合 -->
-          <p v-else>まだブログがありません。</p>
+          <!-- お知らせがまだない場合 -->
+          <p v-else>まだお知らせがありません。</p>
       </main>
       <ButtonColors :buttons="buttons" @navigate="goPage" />
     </CommonLayout>
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import UserHeader from '../../components/UserHeader.vue'
@@ -37,32 +37,16 @@ import UserFooter from '../../components/UserFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
 
-const posts = ref<{ title: string; content: string }[]>([])
-
-// ✅ ページ読み込み時に localStorage から読み込み
-onMounted(() => {
-  const saved = localStorage.getItem('blogPosts')
-  posts.value = saved ? JSON.parse(saved) : []
-})
-
-// 新しい順で表示
-const reversedPosts = computed(() => [...posts.value].reverse())
+const props = defineProps<{ posts: { id: number; title: string; content: string }[] }>()
+const posts = ref(props.posts)
 
 const getPreview = (text: string) => {
   if (!text) return ''
   return text.length > 20 ? text.slice(0, 20) + '...' : text
 }
 
-const goPost = (index: number) => {
-  router.visit(`/user/UserBlogDetail/${index}`)
-}
-
-const buttons = [
-  { label: "ホームへ戻る", path: "/user/home", class: "home-btn" },
-]
-
-const goPage = (path: string) => {
-  router.visit(path)
+const goPost = (id: number) => {
+  router.visit(`/user/UserBlogDetail/${id}`)
 }
 </script>
 

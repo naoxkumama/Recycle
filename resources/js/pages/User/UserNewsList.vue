@@ -62,7 +62,7 @@ main {
   text-align: left;
 }
 
-.blog-item {
+.news-item {
   background: #fff;
   padding: 1rem;
   margin-bottom: 1.5rem;
@@ -70,13 +70,13 @@ main {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.blog-item h2 {
+.news-item h2 {
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
   color: #333;
 }
 
-.blog-item .content {
+.news-item .content {
   font-size: 1rem;
   line-height: 1.6;
   color: #444;
