@@ -11,8 +11,8 @@
 
         <!-- お知らせがある場合 -->
           <div v-if="posts.length">
-              <div v-for="(post, index) in reversedPosts" :key="index" class="news-item">
-                <h2 @click="goPost(index)" class="clickable">{{ post.title }}</h2>
+              <div v-for="post in posts" :key="post.id" class="news-item">
+                <h2 @click="goPost(post.id)" class="clickable">{{ post.title }}</h2>
                 <p class="content">{{ getPreview(post.content) }}</p>
                 <hr />
               </div>
@@ -37,32 +37,16 @@ import UserFooter from '../../components/UserFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
 
-const posts = ref<{ title: string; content: string }[]>([])
-
-const buttons = [
-  { label: "ホームへ戻る", path: "/user/home", class: "home-btn" },
-]
-
-// ✅ ページ読み込み時に localStorage から読み込み
-onMounted(() => {
-  const saved = localStorage.getItem('newsPosts')
-  posts.value = saved ? JSON.parse(saved) : []
-})
-
-// 新しい順で表示
-const reversedPosts = computed(() => [...posts.value].reverse())
+const props = defineProps<{ posts: { id: number; title: string; content: string }[] }>()
+const posts = ref(props.posts)
 
 const getPreview = (text: string) => {
   if (!text) return ''
   return text.length > 20 ? text.slice(0, 20) + '...' : text
 }
 
-const goPost = (index: number) => {
-  router.visit(`/user/UserNewsDetail/${index}`)
-}
-
-const goPage = (path: string) => {
-  router.visit(path)
+const goPost = (id: number) => {
+  router.visit(`/user/UserNewsDetail/${id}`)
 }
 </script>
 
