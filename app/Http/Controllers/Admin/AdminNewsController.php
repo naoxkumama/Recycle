@@ -13,14 +13,14 @@ class AdminNewsController extends Controller
     public function index()
     {
         $news = NewsPost::latest()->get();
-        return Inertia::render('admin/AdminNewsList', [
+        return Inertia::render('Admin/AdminNewsList', [
             'news' => $news->toArray()
         ]);
     }
 
     public function show(NewsPost $news)
     {
-        return Inertia::render('admin/AdminNewsDetail', [
+        return Inertia::render('Admin/AdminNewsDetail', [
             'news' => $news,
         ]);
     }
@@ -36,7 +36,7 @@ class AdminNewsController extends Controller
 
     public function create()
     {
-        return Inertia::render('admin/AdminNewsEdit');
+        return Inertia::render('Admin/AdminNewsEdit');
     }
 
     // 更新
@@ -51,7 +51,7 @@ class AdminNewsController extends Controller
     // 編集画面
     public function edit(NewsPost $news)
     {
-        return Inertia::render('admin/AdminNewsEdit', [
+        return Inertia::render('Admin/AdminNewsEdit', [
             'news' => $news
         ]);
     }
