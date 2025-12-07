@@ -58,7 +58,7 @@ const savePost = () => {
         router.put(`/admin/AdminNewsEdit/${form.value.id}`, form.value, {
             onSuccess: () => {
                 alert('更新しました')
-                router.visit('/admin/AdminNewsList')
+                router.visit('admin.news.index')
             }
         })
     } else {
@@ -66,7 +66,7 @@ const savePost = () => {
         router.post('/admin/AdminNewsEdit', form.value, {
             onSuccess: () => {
                 alert('保存しました')
-                router.visit('/admin/AdminNewsList')
+                router.visit('admin.news.index')
             }
         })
     }
