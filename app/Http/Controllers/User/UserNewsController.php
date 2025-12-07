@@ -13,7 +13,7 @@ class UserNewsController extends Controller
         // 新しい順で取得
         $posts = NewsPost::orderBy('created_at', 'desc')->get();
 
-        return Inertia::render('user/UserNewsList', [
+        return Inertia::render('User/UserNewsList', [
             'posts' => $posts,
         ]);
     }
@@ -22,7 +22,7 @@ class UserNewsController extends Controller
     {
         $post = NewsPost::findOrFail($id);
 
-        return Inertia::render('user/UserNewsDetail', [
+        return Inertia::render('User/UserNewsDetail', [
             'post' => $post,
         ]);
     }
