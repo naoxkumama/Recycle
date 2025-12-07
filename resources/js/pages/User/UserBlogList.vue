@@ -10,7 +10,7 @@
         <h1>お知らせ 📺</h1>
 
         <!-- お知らせがある場合 -->
-          <div v-if="posts.length">
+          <div v-if="posts?.length">
               <div v-for="post in posts" :key="post.id" class="blog-item">
                 <h2 @click="goPost(post.id)" class="clickable">{{ post.title }}</h2>
                 <p class="content">{{ getPreview(post.content) }}</p>
@@ -38,7 +38,7 @@ import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
 
 const props = defineProps<{ posts: { id: number; title: string; content: string }[] }>()
-const posts = ref(props.posts)
+const posts = ref(props.posts || [])
 
 const getPreview = (text: string) => {
   if (!text) return ''

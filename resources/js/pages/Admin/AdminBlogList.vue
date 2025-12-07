@@ -6,13 +6,14 @@
           <h1>ブログ管理📚</h1>
           <button class="write-btn" @click="goWritePage">新規作成 ✏️</button>
         </div>
-          <div v-if="posts.length" class="blog-list">
+          <div v-if="blogs.length" class="blog-list">
             <div v-for="post in blogs" :key="post.id">
               <h2>{{ post.title }}</h2>
               <button @click="editPost(post.id)">編集</button>
               <button @click="deletePost(post.id)">削除</button>
             </div>
           </div>
+
           <p v-else>まだブログがありません。</p>
       </main>
 
