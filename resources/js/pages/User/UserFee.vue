@@ -1,6 +1,7 @@
 <template>
   <div class="common">
     <UserHeader />
+    <BackgroundClouds />
     <CommonLayout
       leftImage="/images/bear.jpg"
       rightImage="/images/truck.jpg"
@@ -134,6 +135,7 @@ import UserHeader from '../../components/UserHeader.vue'
 import UserFooter from '../../components/UserFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
+import BackgroundClouds from '../../components/BackgroundClouds.vue'
 
 const openIndex = ref<number | null>(null)
 

@@ -4,6 +4,10 @@ FROM php:8.3-fpm
 # 作業ディレクトリ
 WORKDIR /var/www/html
 
+# sailユーザー作成 (UID=1000, GID=1000)
+RUN groupadd --force -g 1000 sail \
+    && useradd -ms /bin/bash --no-user-group -g sail -u 1000 sail
+
 # 必要パッケージ＋Nodeをインストール（Node 20）
 RUN apt-get update && apt-get install -y \
     git unzip libpq-dev libzip-dev zip curl \

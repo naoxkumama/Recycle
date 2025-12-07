@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminReservationHistoryController;
 use App\Http\Controllers\Admin\AdminContactHistoryController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\UserNewsController;
 use App\Http\Controllers\User\UserReservationController;
 use App\Http\Controllers\User\UserContactController;
 
@@ -21,12 +22,12 @@ Route::prefix('admin')->group(function () {
         Route::get('AdminHome', [AdminHomeController::class, 'AdminHome'])->name('admin.home');
 
         Route::get('/AdminNewsList', [AdminNewsController::class, 'index'])->name('admin.news.index');
-        Route::get('/AdminNewsList/{news}', [AdminNewsController::class, 'show'])->name('admin.news.show'); // 詳細
+        Route::get('/AdminNewsList/{news}', [AdminNewsController::class, 'show'])->name('admin.news.show'); // 詳細ページへ遷移
         Route::delete('/AdminNewsList/{news}', [AdminNewsController::class, 'destroy'])->name('admin.news.destroy');
-        Route::get('/AdminNewsEdit', [AdminNewsController::class, 'create'])->name('admin.news.create'); // 新規
-        Route::post('/AdminNewsEdit', [AdminNewsController::class, 'store'])->name('admin.news.store');   // 保存
-        Route::get('/AdminNewsEdit/{news}/edit', [AdminNewsController::class, 'edit'])->name('admin.news.edit'); // 編集
-        Route::put('/AdminNewsEdit/{news}', [AdminNewsController::class, 'update'])->name('admin.news.update');   // 更新
+        Route::get('/AdminNewsEdit', [AdminNewsController::class, 'create'])->name('admin.news.create'); // 新規ページへ遷移
+        Route::post('/AdminNewsEdit', [AdminNewsController::class, 'store'])->name('admin.news.store');   // 保存処理
+        Route::get('/AdminNewsEdit/{news}/edit', [AdminNewsController::class, 'edit'])->name('admin.news.edit'); // 編集ページへ遷移
+        Route::put('/AdminNewsEdit/{news}', [AdminNewsController::class, 'update'])->name('admin.news.update');   // 更新処理
 
         Route::get('AdminBlogList', [AdminHomeController::class, 'AdminBlogList']);
         Route::get('AdminBlogDetail/{index}', [AdminHomeController::class, 'AdminBlogDetail']);
@@ -39,8 +40,6 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('user')->group(function () {
     Route::get('home', [HomeController::class, 'home']);
-    Route::get('UserNewsList', [HomeController::class, 'UserNewsList']);
-    Route::get('UserNewsDetail/{index}', [HomeController::class, 'UserNewsDetail']);
     Route::get('UserBlogList', [HomeController::class, 'UserBlogList']);
     Route::get('UserBlogDetail/{index}', [HomeController::class, 'UserBlogDetail']);
     Route::get('UserDate', [HomeController::class, 'UserDate']);
@@ -51,6 +50,8 @@ Route::prefix('user')->group(function () {
     Route::get('UserReservationComplete', [HomeController::class, 'UserReservationComplete']);
     Route::get('UserContactComplete', [HomeController::class, 'UserContactComplete']);
 
+    Route::get('news', [UserNewsController::class, 'index']);
+    Route::get('news/{id}', [UserNewsController::class, 'show']);
     Route::post('/UserReservation', [UserReservationController::class, 'store']);
     Route::post('/UserContact', [UserContactController::class, 'store']);
 });

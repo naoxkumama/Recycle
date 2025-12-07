@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue"
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
