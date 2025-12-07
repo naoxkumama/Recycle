@@ -28,52 +28,52 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
 import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
-const params = new URLSearchParams(window.location.search)
-const indexParam = params.get('index')
+type BlogForm = {
+    id?: number
+    title: string
+    content: string
+}
 
-const posts = ref<{ title: string; content: string }[]>([])
-const form = ref({ title: '', content: ''})
+const form = ref<BlogForm>({
+    id: undefined,
+    title: '',
+    content: ''
+})
 const isEdit = ref(false)
 
 // 初期処理
-onMounted(() => {
-    const saved = localStorage.getItem('blogPosts')
-    posts.value = saved ? JSON.parse(saved) : []
-
-    // 編集モードの場合
-    if (indexParam !== null) {
-        const index = parseInt(indexParam)
-        const post = posts.value[index]
-        if (post) {
-            form.value.title = post.title
-            form.value.content = post.content
-            isEdit.value = true
-        }
-    }
-})
+const props = defineProps<{ blog?: { id: number; title: string; content: string } }>()
+if (props.blog) {
+    form.value = { ...props.blog }
+    isEdit.value = true
+}
 
 // 保存処理
 const savePost = () => {
-    if (isEdit.value && indexParam !== null) {
-        // 上書き保存
-        const index = parseInt(indexParam)
-        posts.value[index] = { ...form.value }
+    if (isEdit.value && form.value.id) {
+        router.put(`/admin/blog/${form.value.id}`, form.value, {
+            onSuccess: () => {
+                alert('ブログを更新しました！')
+                router.visit('/admin/blog')
+            }
+        })
     } else {
-        // 新規追加
-        posts.value.push({ ...form.value})
+        router.post('/admin/blog', form.value, {
+            onSuccess: () => {
+                alert('新規ブログを作成しました！')
+                router.visit('/admin/blog')
+            }
+        })
     }
-
-    localStorage.setItem('blogPosts', JSON.stringify(posts.value))
-    alert(isEdit.value ? 'ブログを更新しました！' : '新規ブログを追加しました！')
-    router.visit('/admin/AdminBlogList')
 }
+
 
 const buttons = [
     { label: "ブログ管理へ戻る", path: "/admin/AdminBlogList", class: "home-btn" },

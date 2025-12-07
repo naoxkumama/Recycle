@@ -5,39 +5,40 @@
       leftImage="/images/bear.jpg"
       rightImage="/images/truck.jpg"
     >
+      <main>
+        <h1>{{ news.title }}</h1>
+        <p>{{ news.content }}</p>
 
-    <main>
-        <h1>お知らせ 📺</h1>
-        <a href="https://yahoo.co.jp" target="_blank">新着お知らせ➂</a>
-        <p></p>
-        <a href="https://google.co.jp" target="_blank">新着お知らせ➁</a>
-        <p></p>
-        <a href="https://youtube.co.jp" target="_blank">新着お知らせ➀</a>
-    </main>
-      <ButtonColors :buttons="buttons" @navigate="goPage" />
-  </CommonLayout>
-  <UserFooter />
-  <CommonFooter />
+        <button class="back-btn" @click="goBack">
+          一覧に戻る
+        </button>
+      </main>
+    </CommonLayout>
+    <UserFooter />
+    <CommonFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-
 import { router } from '@inertiajs/vue3'
-import ButtonColors from '../../components/buttonColors.vue'
 import UserHeader from '../../components/UserHeader.vue'
 import UserFooter from '../../components/UserFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 import CommonLayout from'../../components/CommonLayout.vue'
 
-const buttons = [
-  { label: "ホームへ戻る", path: "/user/home", class: "home-btn" },
-]
+const props = defineProps<{
+  news: {
+    id: number
+    title: string
+    content: string
+  }
+}>()
 
-const goPage = (path: string) => {
-  router.visit(path)
+const goBack = () => {
+  router.visit('user.news.index')
 }
 </script>
+
 
 <style scoped>
 .common {

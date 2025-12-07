@@ -7,15 +7,10 @@
           <button class="write-btn" @click="goWritePage">新規作成 ✏️</button>
         </div>
           <div v-if="posts.length" class="blog-list">
-            <div v-for="(post, index) in posts" :key="index" class="blog-item">
-              <div class="blog-header">
-                <h2 @click="viewPost(index)" class="clickable">{{ post.title }}</h2>
-                <div class="action-buttons">
-                  <button class="edit-btn" @click="editPost(index)">編集 ✏️</button>
-                  <button class="delete-btn" @click="deletePost(index)">削除 ✖</button>
-                </div>
-              </div>
-              <p class="preview-text">{{ getPreview(post.content) }}</p>
+            <div v-for="post in blogs" :key="post.id">
+              <h2>{{ post.title }}</h2>
+              <button @click="editPost(post.id)">編集</button>
+              <button @click="deletePost(post.id)">削除</button>
             </div>
           </div>
           <p v-else>まだブログがありません。</p>
@@ -28,41 +23,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
 import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
-const posts = ref<{ title: string; content: string }[]>([])
 
-const getPreview = (text: string) => {
-  if(!text) return ''
-  return text.length > 120 ? text.slice(0, 120) + '...' :text
+const props = defineProps<{ blogs: Blog[] }>()
+const blogs = computed(() => props.blogs)
+
+const getPreview = (content: string) => {
+  if (!content) return ''
+  return content.length > 120 ? content.substring(0, 120) + '...' : content
 }
 
-onMounted(() => {
-  const saved = localStorage.getItem('blogPosts')
-  if (saved) posts.value = JSON.parse(saved)
-})
+const editPost = (id: number) => {
+  router.visit('admin.blog.edit', { id })
+}
+
+const deletePost = (id: number) => {
+  if (!confirm('削除しますか？')) return
+
+  router.delete('admin.blog.destroy', { id })
+}
 
 const goWritePage = () => {
-  router.visit('/admin/AdminBlogEdit')
-}
-
-const viewPost = (index: number) => {
-  router.visit(`/admin/AdminBlogDetail/${index}`)
-}
-
-const editPost = (index: number) => {
-  router.visit(`/admin/AdminBlogEdit?index=${index}`)
-}
-
-const deletePost = (index: number) => {
-  if (!confirm('本当に削除しますか？')) return
-  posts.value.splice(index, 1)
-  localStorage.setItem('blogPosts', JSON.stringify(posts.value))
+  router.visit('/admin/blog/create')
 }
 
 const buttons = [

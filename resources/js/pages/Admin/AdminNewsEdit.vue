@@ -35,9 +35,6 @@ import AdminHeader from '../../components/AdminHeader.vue'
 import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
-const params = new URLSearchParams(window.location.search)
-
-const posts = ref<{ title: string; content: string }[]>([])
 const form = ref<{ id?: number; title: string; content: string }>({
     title: '',
     content: ''

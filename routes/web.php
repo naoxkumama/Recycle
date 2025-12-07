@@ -30,10 +30,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/AdminNewsEdit/{news}/edit', [AdminNewsController::class, 'edit'])->name('admin.news.edit'); // 編集ページへ遷移
         Route::put('/AdminNewsEdit/{news}', [AdminNewsController::class, 'update'])->name('admin.news.update');   // 更新処理
 
-        Route::get('blogs', [AdminBlogController::class, 'index']);
-        Route::post('blogs', [AdminBlogController::class, 'store']);
-        Route::put('blogs/{id}', [AdminBlogController::class, 'update']);
-        Route::delete('blogs/{id}', [AdminBlogController::class, 'destroy']);
+        Route::get('/AdminBlogList', [AdminBlogController::class, 'index']);
+        Route::post('/AdminBlogEdit', [AdminBlogController::class, 'store']);
+        Route::put('/AdminBlogEdit/{id}', [AdminBlogController::class, 'update']);
+        Route::delete('/AdminBlogList/{id}', [AdminBlogController::class, 'destroy']);
 
         Route::get('AdminReservationHistory', [AdminReservationHistoryController::class, 'History']);
         Route::get('AdminContactHistory', [AdminContactHistoryController::class, 'history']);
