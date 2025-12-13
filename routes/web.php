@@ -12,7 +12,6 @@ use App\Http\Controllers\User\UserNewsController;
 use App\Http\Controllers\User\UserBlogController;
 use App\Http\Controllers\User\UserReservationController;
 use App\Http\Controllers\User\UserContactController;
-use Illuminate\Support\Facades\DB;
 
 Route::prefix('admin')->group(function () {
 
@@ -56,7 +55,7 @@ Route::prefix('user')->group(function () {
     Route::get('UserReservationComplete', [HomeController::class, 'UserReservationComplete']);
     Route::get('UserContactComplete', [HomeController::class, 'UserContactComplete']);
 
-    Route::get('UserNews', [UserNewsController::class, 'index']);
+    Route::get('UserNewsList', [UserNewsController::class, 'index']);
     Route::get('UserNewsList/{id}', [UserNewsController::class, 'show']);
 
     Route::get('UserBlogList', [UserBlogController::class, 'index']);
@@ -64,8 +63,4 @@ Route::prefix('user')->group(function () {
 
     Route::post('UserReservation', [UserReservationController::class, 'store']);
     Route::post('UserContact', [UserContactController::class, 'store']);
-});
-
-Route::get('/db-check', function () {
-    return DB::select('select 1 as ok');
 });
