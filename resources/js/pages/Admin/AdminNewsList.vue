@@ -35,7 +35,14 @@ import AdminHeader from '../../components/AdminHeader.vue'
 import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
+const form = ref<{ id?: number; title: string; content: string }>({
+    title: '',
+    content: ''
+})
+
+// 初期処理
 const props = defineProps<{ news?: { id: number; title: string; content: string }[] }>()
+
 const posts = ref<{ id: number; title: string; content: string }[]>(props.news || [])
 
 const getPreview = (text: string) => {
@@ -53,10 +60,9 @@ const viewPost = (id: number) => router.visit(`/admin/AdminNewsList/${id}`);
 const deletePost = (id: number) => {
     if (!confirm('本当に削除しますか？')) return;
 
-    router.delete(`/admin/AdminNewsList/${id}`, {
+    router.post(`/admin/AdminNewsListDelete/${id}`, form.value, {     // ← データ（オブジェクト）
         onSuccess: () => {
             alert('削除しました');
-            // ページリロードまたは posts を更新
             posts.value = posts.value.filter(p => p.id !== id);
         }
     });

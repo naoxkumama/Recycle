@@ -20,10 +20,10 @@ class UserNewsController extends Controller
 
     public function show($id)
     {
-        $posts = NewsPost::findOrFail($id);
+        $post = NewsPost::findOrFail($id);
 
         return Inertia::render('User/UserNewsDetail', [
-            'posts' => $posts,
+            'post' => $post,
         ]);
     }
 }

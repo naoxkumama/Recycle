@@ -6,14 +6,18 @@
           <h1>ブログ管理📚</h1>
           <button class="write-btn" @click="goWritePage">新規作成 ✏️</button>
         </div>
-          <div v-if="blogs.length" class="blog-list">
-            <div v-for="post in blogs" :key="post.id">
-              <h2>{{ post.title }}</h2>
-              <button @click="editPost(post.id)">編集</button>
-              <button @click="deletePost(post.id)">削除</button>
+          <div v-if="posts.length" class="blog-list">
+            <div v-for="post in posts" :key="post.id" class="blog-item">
+              <div class="blog-header">
+                <h2 @click="viewPost(post.id)" class="clickable">{{ post.title }}</h2>
+                <div class="action-buttons">
+                  <button class="edit-btn" @click="editPost(post.id)">編集 ✏️</button>
+                  <button class="delete-btn" @click="deletePost(post.id)">削除 ✖</button>
+                </div>
+              </div>
+              <p class="preview-text">{{ getPreview(post.content) }}</p>
             </div>
           </div>
-
           <p v-else>まだブログがありません。</p>
       </main>
 
@@ -24,34 +28,44 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
 import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
+const form = ref<{ id?: number; title: string; content: string }>({
+    title: '',
+    content: ''
+})
 
-const props = defineProps<{ blogs: Blog[] }>()
-const blogs = computed(() => props.blogs)
+// 初期処理
+const props = defineProps<{ blog?: { id: number; title: string; content: string }[] }>()
 
-const getPreview = (content: string) => {
-  if (!content) return ''
-  return content.length > 120 ? content.substring(0, 120) + '...' : content
-}
+const posts = ref<{ id: number; title: string; content: string }[]>(props.blog || [])
 
-const editPost = (id: number) => {
-  router.visit('admin.blog.edit', { id })
-}
-
-const deletePost = (id: number) => {
-  if (!confirm('削除しますか？')) return
-
-  router.delete('admin.blog.destroy', { id })
+const getPreview = (text: string) => {
+  if(!text) return ''
+  return text.length > 120 ? text.slice(0, 120) + '...' :text
 }
 
 const goWritePage = () => {
-  router.visit('/admin/blog/create')
+  router.visit("/admin/AdminBlogEdit")
+}
+
+const editPost = (id: number) => router.visit(`/admin/AdminBlogEdit/${id}/edit`);
+const viewPost = (id: number) => router.visit(`/admin/AdminBlogList/${id}`);
+
+const deletePost = (id: number) => {
+    if (!confirm('本当に削除しますか？')) return;
+
+    router.post(`/admin/AdminBlogListDelete/${id}`, form.value, {     // ← データ（オブジェクト）
+        onSuccess: () => {
+            alert('削除しました');
+            posts.value = posts.value.filter(p => p.id !== id);
+        }
+    });
 }
 
 const buttons = [
@@ -102,7 +116,7 @@ h1 {
   box-shadow: 0.4px 8px rgba(76, 175, 80, 0.3);
 }
 
-/* --- ブログ一覧 --- */
+/* --- お知らせ一覧 --- */
 .blog-list {
   display: flex;
   flex-direction: column;

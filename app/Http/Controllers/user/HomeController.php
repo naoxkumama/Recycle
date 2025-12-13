@@ -22,6 +22,16 @@ class HomeController extends Controller
         return Inertia::render('UserFee');
     }
 
+    public function UserBlogList()
+    {
+        return Inertia::render('UserBlogList');
+    }
+
+    public function UserBlogDetail($index)
+    {
+        return Inertia::render('UserBlogDetail', ['index' => (int)$index]);
+    }
+
     public function UserReservation()
     {
         return Inertia::render('UserReservation');

@@ -28,21 +28,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue"
 import { router } from '@inertiajs/vue3'
 import ButtonColors from '../../components/buttonColors.vue'
 import AdminHeader from '../../components/AdminHeader.vue'
 import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
-type BlogForm = {
-    id?: number
-    title: string
-    content: string
-}
-
-const form = ref<BlogForm>({
-    id: undefined,
+const form = ref<{ id?: number; title: string; content: string }>({
     title: '',
     content: ''
 })
@@ -58,25 +51,26 @@ if (props.blog) {
 // 保存処理
 const savePost = () => {
     if (isEdit.value && form.value.id) {
-        router.put(`/admin/blog/${form.value.id}`, form.value, {
+        // 編集時は PUT
+        router.post(`/admin/AdminBlogEditUpdate/${form.value.id}`, form.value, {
             onSuccess: () => {
-                alert('ブログを更新しました！')
-                router.visit('/admin/blog')
+                alert('更新しました')
+                router.visit('/admin/AdminBlogList')
             }
         })
     } else {
-        router.post('/admin/blog', form.value, {
+        // 新規作成は POST
+        router.post('/admin/AdminBlogEditNew', form.value, {
             onSuccess: () => {
-                alert('新規ブログを作成しました！')
-                router.visit('/admin/blog')
+                alert('保存しました')
+                router.visit('/admin/AdminBlogList')
             }
         })
     }
 }
 
-
 const buttons = [
-    { label: "ブログ管理へ戻る", path: "/admin/AdminBlogList", class: "home-btn" },
+    { label: "お知らせ管理へ戻る", path: "/admin/AdminBlogList", class: "home-btn" },
     { label: "管理画面TOPへ戻る", path: "/admin/AdminHome", class: "home-btn" },
 ]
 

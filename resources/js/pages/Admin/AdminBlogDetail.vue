@@ -1,20 +1,19 @@
 <template>
     <div class="common">
-        <AdminHeader />
-
-        <main>
-            <h1>{{ blog.title }}</h1>
-            <p>{{ blog.content }}</p>
+    <AdminHeader />
+        <main v-if="post">
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.content }}</p>
 
             <div class="button-group">
-                <button @click="editPost" class="edit-btn">編集 ✏️</button>
-                <button @click="deletePost" class="delete-btn">削除 ✖</button>
+                <button @click="editPost(index)" class="edit-btn">編集 ✏️</button>
+                <button @click="deletePost(index)" class="delete-btn">削除 ✖</button>
                 <button @click="goBack">一覧に戻る</button>
             </div>
         </main>
-
-        <AdminFooter />
-        <CommonFooter />
+        <p v-else>記事が存在しません</p>
+    <AdminFooter />
+    <CommonFooter />
     </div>
 </template>
 
@@ -24,27 +23,28 @@ import AdminHeader from '../../components/AdminHeader.vue'
 import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
 
+// 👇 Laravel から props を受け取る
 const props = defineProps<{
-  blog: {
-    id: number,
-    title: string,
-    content: string
-  }
+    blog: { id: number; title: string; content: string }
 }>()
+const post = props.blog
 
-const editPost = () => {
-    router.visit(route('admin.blog.edit', { id: props.blog.id }))
+const editPost = (id: number) => {
+    router.visit(`/Admin/AdminBlogEdit/${id}/edit`)
 }
 
-const deletePost = () => {
+const deletePost = (id: number) => {
     if (!confirm('本当に削除しますか？')) return
 
-    router.delete(route('admin.blog.destroy', { id: props.blog.id }))
+    router.delete(`/Admin/AdminBlogList/${id}`, {
+    onSuccess: () => {
+        alert('削除しました。')
+        router.visit('/Admin/AdminBlogList')
+    }
+    })
 }
 
-const goBack = () => {
-    router.visit(route('admin.blog.index'))
-}
+const goBack = () => router.visit('/admin/AdminBlogList')
 </script>
 
 <style scoped>
@@ -77,12 +77,11 @@ main:hover {
 
 /* タイトル */
 h1 {
-    font-size: 1.7rem;
+    font-size: 1.05rem;
     white-space: pre-line;
     color: #444;
     margin-bottom: 2rem;
     line-height: 1.9;
-    font-weight: bold;
 }
 
 /* 本文 */
@@ -101,6 +100,7 @@ p {
     justify-content: center;
     flex-wrap: wrap;
 }
+
 
 button {
     display: inline-block;

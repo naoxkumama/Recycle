@@ -5,37 +5,70 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BlogPost;
+use Inertia\Inertia;
 
 class AdminBlogController extends Controller
 {
+     // 一覧
     public function index()
     {
-        return response()->json(BlogPost::orderBy('created_at', 'desc')->get());
+        $blog = BlogPost::latest()->get();
+
+        return Inertia::render('Admin/AdminBlogList', [
+            'blog' => $blog,
+        ]);
     }
 
+    public function show($id)
+    {
+        $blog = BlogPost::findOrFail($id);
+
+        return Inertia::render('Admin/AdminBlogDetail', [
+            'blog' => $blog,
+        ]);
+    }
+
+    // 新規作成画面
+    public function create()
+    {
+        return Inertia::render('Admin/AdminBlogEdit');
+    }
+
+    // 新規保存
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+        BlogPost::create($request->only('title','content'));
 
-        $post = BlogPost::create($request->only('title', 'content'));
-
-        return response()->json($post, 201);
+        return redirect('/admin/AdminBlogList')
+            ->with('success', '追加しました！');
     }
 
-    public function update(Request $request, $id)
+    // 編集画面
+    public function edit($id)
     {
-        $post = BlogPost::findOrFail($id);
-        $post->update($request->only('title', 'content'));
-        return response()->json($post);
+        $blog = BlogPost::findOrFail($id);
+
+        return Inertia::render('Admin/AdminBlogEdit', [
+            'blog' => $blog,
+        ]);
+    }
+
+    // 更新
+    public function update($id, Request $request)
+    {
+        $blog = BlogPost::findOrFail($id);
+        $blog->update($request->only('title', 'content'));
+
+        return redirect('/admin/AdminBlogList')
+            ->with('success', '更新しました！');
     }
 
     public function destroy($id)
     {
-        $post = BlogPost::findOrFail($id);
-        $post->delete();
-        return response()->json(['message' => 'Deleted']);
+        $blog = BlogPost::findOrFail($id);
+        $blog->delete();
+
+        return redirect('/admin/AdminBlogList')
+            ->with('success', '削除しました！');
     }
 }

@@ -1,9 +1,9 @@
 <template>
     <div class="common">
     <AdminHeader />
-        <main>
-            <h1>{{ post?.title }}</h1>
-            <p>{{ post?.content }}</p>
+        <main v-if="post">
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.content }}</p>
 
             <div class="button-group">
                 <button @click="editPost(index)" class="edit-btn">編集 ✏️</button>
@@ -11,13 +11,14 @@
                 <button @click="goBack">一覧に戻る</button>
             </div>
         </main>
+        <p v-else>記事が存在しません</p>
     <AdminFooter />
     <CommonFooter />
     </div>
 </template>
 
 <script setup lang="ts">
-import { router, usePage } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 import AdminHeader from '../../components/AdminHeader.vue'
 import AdminFooter from'../../components/AdminFooter.vue'
 import CommonFooter from'../../components/CommonFooter.vue'
@@ -29,21 +30,21 @@ const props = defineProps<{
 const post = props.news
 
 const editPost = (id: number) => {
-    router.visit(`/Admin/AdminNewsEdit/${id}/edit`)
+    router.visit(`/Admin/AdminBlogEdit/${id}/edit`)
 }
 
 const deletePost = (id: number) => {
     if (!confirm('本当に削除しますか？')) return
 
-    router.delete(`/Admin/AdminNewsList/${id}`, {
+    router.delete(`/Admin/AdminBlogList/${id}`, {
     onSuccess: () => {
         alert('削除しました。')
-        router.visit('/Admin/AdminNewsList')
+        router.visit('/Admin/AdminBlogList')
     }
     })
 }
 
-const goBack = () => router.visit('/admin/AdminNewsList')
+const goBack = () => router.visit('/admin/AdminBlogList')
 </script>
 
 <style scoped>

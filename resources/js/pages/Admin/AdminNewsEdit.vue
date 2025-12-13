@@ -52,18 +52,18 @@ if (props.news) {
 const savePost = () => {
     if (isEdit.value && form.value.id) {
         // 編集時は PUT
-        router.put(`/admin/AdminNewsEdit/${form.value.id}`, form.value, {
+        router.post(`/admin/AdminNewsEditUpdate/${form.value.id}`, form.value, {
             onSuccess: () => {
                 alert('更新しました')
-                router.visit('admin.news.index')
+                router.visit('/admin/AdminNewsList')
             }
         })
     } else {
         // 新規作成は POST
-        router.post('/admin/AdminNewsEdit', form.value, {
+        router.post('/admin/AdminNewsEditNew', form.value, {
             onSuccess: () => {
                 alert('保存しました')
-                router.visit('admin.news.index')
+                router.visit('/admin/AdminNewsList')
             }
         })
     }
