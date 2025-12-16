@@ -8,7 +8,11 @@
 
           <div class="form-group">
             <label for="email">メールアドレス</label>
-            <input v-model="form.email" id="email" type="email" required />
+            <input v-model="form.email" id="email" type="email" required :class="{ 'is-invalid' : form.errors.email}"/>
+            <p v-if="form.errors.email" class="error-msg">
+              {{ form.errors.email }}
+            </p>
+
           </div>
 
           <div class="form-group password-wrapper">
@@ -18,18 +22,21 @@
               <input v-model="form.password"
                 id="password"
                 :type="showPassword ? 'text' : 'password'"
-                required />
+                required :class="{ 'is-invalid': form.errors.password }"/>
 
-              <button type="button"
-                class="toggle-btn"
-                @click="togglePassword"
-                aria-label="Toggle password visibility"
-              >
+              <button type="button" class="toggle-btn" @click="togglePassword" >
 
                 <i v-if="!showPassword" class="fas fa-eye"></i>
                 <i v-else class="fas fa-eye-slash"></i>
               </button>
             </div>
+
+            <p v-if="form.errors.password" class="error-msg">
+              {{ form.errors.password }}
+            </p>
+            <p v-if="form.errors.message" class="error-msg">
+              {{ form.errors.message }}
+            </p>
           </div>
 
           <button type="submit">送信</button>
@@ -61,13 +68,16 @@ const togglePassword = () => {
 }
 
 const submitButton = () => {
+  form.clearErrors()
+
   form.post('/admin/Login', {
-    onSuccess: () => {
-    console.log('成功')
+    onFinish: () => {
+      if (form.hasErrors) {
+        console.log('ログイン失敗', form.errors)
+      } else {
+        console.log('ログイン成功')
+      }
     },
-    onError: () => {
-      console.log('エラー', form.errors)
-    }
   })
 }
 
@@ -176,5 +186,18 @@ button {
   color: white;
   font-size: 1rem;
   cursor: pointer;
+}
+
+.error-msg {
+  width: 300px;
+  margin: 0.35rem auto 0;
+  text-align: left;
+  color: #e74c3c;
+  font-size: 0.9rem;
+}
+
+.is-invalid {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12);
 }
 </style>

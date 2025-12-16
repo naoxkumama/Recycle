@@ -13,6 +13,8 @@ use App\Http\Controllers\User\UserBlogController;
 use App\Http\Controllers\User\UserReservationController;
 use App\Http\Controllers\User\UserContactController;
 
+Route::get('/', function () { return redirect('/user/home');});
+
 Route::prefix('admin')->group(function () {
 
     // Route::middleware('guest:admin')->group(function () {
@@ -20,7 +22,7 @@ Route::prefix('admin')->group(function () {
         Route::post('Login', [AdminAuthController::class, 'Login']);
     // });
 
-    // Route::middleware('auth:admin')->group(function () {
+    Route::middleware('auth:admin')->group(function () {
         Route::get('AdminHome', [AdminHomeController::class, 'AdminHome'])->name('admin.home');
 
         Route::get('AdminNewsList', [AdminNewsController::class, 'index']);         // 一覧ページへ遷移
@@ -42,7 +44,7 @@ Route::prefix('admin')->group(function () {
         Route::get('AdminReservationHistory', [AdminReservationHistoryController::class, 'History']);
         Route::get('AdminContactHistory', [AdminContactHistoryController::class, 'history']);
         Route::post('Logout', [AdminAuthController::class, 'Logout'])->name('admin.logout');
-    // });
+    });
 });
 
 Route::prefix('user')->group(function () {
