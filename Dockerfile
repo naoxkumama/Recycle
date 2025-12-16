@@ -31,8 +31,5 @@ RUN npm install --legacy-peer-deps && npm run build
 # キャッシュ系コマンドはビルド時にやらない
 # Render の Post-Deploy Command で実行
 
-# ポート公開
-EXPOSE 10000
-
 # 起動コマンド
-CMD php artisan serve --host=0.0.0.0 --port=10000
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=$PORT"]

@@ -64,6 +64,8 @@ import CommonLayout from'../../components/CommonLayout.vue'
 const form = useForm({
   name: '',
   phone: '',
+  email: '',
+  message: '',
   first: '',
   second: '',
   third: ''

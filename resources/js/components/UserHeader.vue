@@ -40,7 +40,7 @@ import { ref } from "vue"
 import { router } from "@inertiajs/vue3"
 
 const goPage = (path: string) => {
-  window.location.href = `https://recycle-api-staging.onrender.com${path}`
+  router.visit(path)
 }
 
 const open = ref(false)

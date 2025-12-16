@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class AdminContactHistoryController extends Controller
 {
+    public function index()
+    {
+        Contact::where('is_read', false)->update([
+            'is_read' => true
+        ]);
+
+        $contacts = Contact::orderBy('created_at', 'desc')->get();
+
+        return Inertia::render('Admin/AdminContactHistory', [
+            'contacts' => $contacts
+        ]);
+    }
     public function History(Request $request)
     {
         $field = $request->input('sort_field', 'created_at');
@@ -18,6 +30,10 @@ class AdminContactHistoryController extends Controller
 
         if ($request->filled('name')) {
             $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->filled('phone')) {
+            $query->where('phone', 'like', '%' . $request->phone . '%');
         }
 
         if ($request->filled('email')) {
@@ -45,7 +61,7 @@ class AdminContactHistoryController extends Controller
         return Inertia::render('Admin/AdminContactHistory', [
             'contacts' => $contacts,
             'filters' =>
-                $request -> only(['name', 'email', 'message', 'created_from', 'created_to']),
+                $request -> only(['name', 'phone', 'email', 'message', 'created_from', 'created_to']),
         ]);
     }
 }

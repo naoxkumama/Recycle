@@ -6,7 +6,7 @@
 
     <SearchBox
       :filters="page.props.filters"
-      searchUrl="/admin/AdminContact/History"
+      searchUrl="/admin/AdminContactHistory"
       :groups="[
         {
           label: '基本情報',
@@ -50,13 +50,30 @@ import Pagination from '../../components/Pagination.vue'
 import Table from '../../components/Table.vue'
 import SearchBox from '../../components/SearchBox.vue'
 
-const page = usePage()
+type Contact = {
+  id: number
+  name: string
+  phone: string | null
+  email?: string | null
+  message?: string | null
+  created_at: string
+}
+
+type PageProps = {
+  contacts: {
+    data: Contact[]
+  }
+  filters?: Record<string, any>
+}
+
+const page = usePage<PageProps>()
 
 const contacts = computed(() =>page.props.contacts.data || [])
 
 const columns = [
   {label: 'ID', field: 'id', sortable: true },
   {label: '名前', field: 'name', sortable: false },
+  {label: '電話番号', field: 'phone', sortable: false },
   {label: 'メールアドレス', field: 'email', sortable: false },
   {label: '本文', field: 'message', sortable: false },
   {label: '作成日', field: 'created_at', type: 'date', sortable: true },

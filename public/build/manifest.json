@@ -24,12 +24,12 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-dm32bWO9.js",
+    "file": "assets/app-mYQGVupB.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-D9O2XqCe.css"
+      "assets/app-DykKZQNG.css"
     ],
     "assets": [
       "assets/fa-brands-400-BfBXV7Mm.woff2",

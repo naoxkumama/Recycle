@@ -5,7 +5,7 @@
 
     <SearchBox
       :filters="page.props.filters"
-      searchUrl="/admin/AdminReservation/History"
+      searchUrl="/admin/AdminReservationHistory"
       :groups="[
         {
           label: '基本情報',
@@ -50,13 +50,34 @@ import Pagination from '../../components/Pagination.vue'
 import Table from '../../components/Table.vue'
 import SearchBox from '../../components/SearchBox.vue'
 
-const page = usePage()
+type Reservation = {
+  id: number
+  name: string
+  phone: string | null
+  email?: string | null
+  message?: string | null
+  first: string | null
+  second: string | null
+  third: string | null
+  created_at: string
+}
+
+type PageProps = {
+  reservations: {
+    data: Reservation[]
+  }
+  filters?: Record<string, any>
+}
+
+const page = usePage<PageProps>()
 
 const reservations = computed(() =>page.props.reservations.data || [])
 
 const columns = [
   {label: 'ID', field: 'id', sortable: true },
   {label: '名前', field: 'name', sortable: false },
+  {label: 'メールアドレス', field: 'email', sortable: false },
+  {label: '備考', field: 'message', sortable: false },
   {label: '電話番号', field: 'phone', sortable: false },
   {label: '第一希望', field: 'first', sortable: true },
   {label: '第二希望', field: 'second', sortable: true },

@@ -13,6 +13,8 @@ class UserReservationController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
+            'email'   => 'required|email',
+            'message' => 'required|string',
             'first' => 'required|date',
             'second' => 'nullable|date',
             'third' => 'nullable|date',
@@ -22,6 +24,8 @@ class UserReservationController extends Controller
         Reservation::create([
             'name' => $request->name,
             'phone' => $request->phone,
+            'email' => $request->email,
+            'message' => $request->message,
             'first' => $request->first,
             'second' => $request->second,
             'third' => $request->third,

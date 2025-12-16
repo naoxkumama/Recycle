@@ -9,7 +9,7 @@
         "php": "^8.2",
         "ext-pdo_pgsql": "*",
         "ext-pgsql": "*",
-        "doctrine/dbal": "^4.3",
+        "doctrine/dbal": "^4.4",
         "inertiajs/inertia-laravel": "*",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",

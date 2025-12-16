@@ -7,13 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reservation extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'name',
         'phone',
+        'email',
         'first',
         'second',
         'third',
+        'message',
+        'is_read',
+    ];
+
+    protected $casts = [
+        'is_read' => 'boolean',
     ];
 }

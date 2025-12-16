@@ -9,6 +9,21 @@ use Illuminate\Http\Request;
 
 class AdminReservationHistoryController extends Controller
 {
+    public function index()
+    {
+        // 🔴 未読 → 既読にする
+        Reservation::where('is_read', false)->update([
+            'is_read' => true
+        ]);
+
+        // 一覧取得
+        $reservations = Reservation::orderBy('created_at', 'desc')->get();
+
+        return Inertia::render('Admin/AdminReservationHistory', [
+            'reservations' => $reservations
+        ]);
+    }
+
     public function History(Request $request)
     {
         $field = $request->input('sort_field', 'created_at');
@@ -22,6 +37,14 @@ class AdminReservationHistoryController extends Controller
 
         if ($request->filled('phone')) {
             $query->where('phone', 'like', '%' . $request->phone . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        if ($request->filled('message')) {
+            $query->where('message', 'like', '%' . $request->message . '%');
         }
 
         if ($request->filled('first_from') && $request->filled('first_to')) {
@@ -49,7 +72,7 @@ class AdminReservationHistoryController extends Controller
         return Inertia::render('Admin/AdminReservationHistory', [
             'reservations' => $reservations,
             'filters' =>
-                $request -> only(['name', 'phone', 'first_from', 'first_to', 'created_from', 'created_to']),
+                $request -> only(['name', 'phone', 'email', 'message', 'first_from', 'first_to', 'created_from', 'created_to']),
         ]);
     }
 }
