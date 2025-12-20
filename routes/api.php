@@ -20,15 +20,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/admin/reservations/unread', function () {
-    return ['count' => \App\Models\Reservation::where('is_read', false)->count()];
-});
-
-Route::get('/admin/contacts/unread', function () {
-    return ['count' => \App\Models\Contact::where('is_read', false)->count()];
-});
-
 Route::get('/admin/notifications/unread', function () {
+
+    if (!auth('admin')->check()) {
+        return response()->json([
+            'reservations' => 0,
+            'contacts' => 0,
+        ]);
+    }
+
     return response()->json([
         'reservations' => Reservation::where('is_read', false)->count(),
         'contacts'     => Contact::where('is_read', false)->count(),
